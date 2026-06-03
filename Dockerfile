@@ -18,9 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Force-upgrade pip and install required gateway dependencies explicitly
+# Force-upgrade pip and install required gateway and Hindsight binary dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir python-telegram-bot httpx pyyaml tokenizers
+    pip install --no-cache-dir python-telegram-bot httpx pyyaml tokenizers hindsight-all
 
 # Install Hermes Agent from the official mainline branch
 RUN pip install --no-cache-dir git+https://github.com/NousResearch/hermes-agent.git
