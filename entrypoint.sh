@@ -19,21 +19,17 @@ fi
 cat << EOF > "$HERMES_HOME/.env"
 TELEGRAM_BOT_TOKEN="${TELEGRAM_BOT_TOKEN}"
 TELEGRAM_ALLOWED_USERS="${TELEGRAM_ALLOWED_USERS}"
-AI_API_KEY="${AI_API_KEY}"
+OPENAI_API_KEY="${AI_API_KEY}"
+OPENAI_API_BASE="${EXPORT_BASE_URL}"
 EOF
 
-# Write out the master config using the explicit openai_compatible provider layout
+# Write out the master config utilizing the standard framework fallback syntax
 cat << EOF > "$HERMES_HOME/config.yaml"
 gateway:
   channel: telegram
   session_persistence: true
 model:
   default: "${AI_MODEL_NAME:-gemini-3.1-flash-lite}"
-  provider: "openai_compatible"
-  base_url: "${EXPORT_BASE_URL}"
-  api_key: "${AI_API_KEY}"
-memory:
-  provider: "hindsight"
 EOF
 
 # Build the local Hindsight embedded relational database configuration matching the provider
