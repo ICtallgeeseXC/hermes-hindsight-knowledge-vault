@@ -43,4 +43,4 @@ if [ ! -f "${HINDSIGHT_HOME}/database.db" ]; then
 fi
 
 echo "🚀 Launching Hermes Gateway Pipeline. Listening for authenticated Telegram commands..."
-exec hermes gateway start
+exec hermes gateway run
