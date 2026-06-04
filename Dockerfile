@@ -3,7 +3,7 @@
 # =============================================================================
 FROM python:3.11-slim
 
-# Set direct system paths straight onto the persistent volume disk mount
+# Enforce system boundaries directly to the persistent volume mount point
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     HERMES_HOME=/data/.hermes \
@@ -11,27 +11,27 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /app
 
-# Install standard core utilities
+# Install baseline system utilities
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install the necessary messaging wrappers and the Hindsight binary components
+# Install required gateway dependencies along with the hindsight local engine packages
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir python-telegram-bot httpx pyyaml tokenizers hindsight-all
 
-# Fetch and install the mainline edition of Hermes Agent
+# Install Hermes Agent directly from the official mainline branch
 RUN pip install --no-cache-dir git+https://github.com/NousResearch/hermes-agent.git
 
-# Establish the foundational volume directories directly on the mount
+# Initialize the volume directories
 RUN mkdir -p /data/.hermes /data/.hermes/hindsight
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-# Run as root to ensure perfect volume persistence and open terminal channels
+# Force root execution to maintain interactive terminal pipelines without drops
 USER root
 
 ENTRYPOINT ["/app/entrypoint.sh"]
